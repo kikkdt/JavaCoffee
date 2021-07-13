@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e71d13ab-9a91-497c-aa23-1c14640453d8">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="chartDataSet" uuid="907fb493-3df5-4175-b784-2613ee628b0d">
+		<field name="ngayXuatHD" class="java.sql.Date"/>
+		<field name="thanhTien" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="CHAR_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="101" splitType="Stretch">
+			<staticText>
+				<reportElement x="121" y="0" width="434" height="47" uuid="68c928cc-4db3-4242-b0b7-2266414a7342"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[THỐNG KÊ BÁO CÁO]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="121" height="99" uuid="8dbe9274-9ad2-408c-9109-449bc0d37bfd"/>
+				<imageExpression><![CDATA["F:\\Backup Data\\F\\1. DoAn\\CN Java\\JavaCoffee\\src\\javacoffee\\view\\image\\logo-medium.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="146" y="47" width="73" height="35" uuid="04fef6ed-e01b-4648-989c-56e693072dab"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ngày lập:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="219" y="47" width="336" height="35" uuid="477ba583-788b-44b0-a829-cef3ace45cfa"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="463" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="35" uuid="38799ab9-a1c9-43da-83bc-de2c37dedcc5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Doanh thu]]></text>
+			</staticText>
+			<lineChart>
+				<chart>
+					<reportElement x="0" y="35" width="555" height="322" uuid="838218bd-01a0-42a5-aebf-04c6fbd63668"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="chartDataSet" uuid="fdd6888c-8200-4b30-a65b-520ee33a33f4">
+							<dataSourceExpression><![CDATA[$P{CHAR_DATASET}]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Tiền thu về"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{ngayXuatHD}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{thanhTien}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot labelRotation="90.0"/>
+					<categoryAxisFormat labelRotation="90.0">
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="435" y="0" width="80" height="20" uuid="e5744880-db8f-4977-b525-8f73b079c4c8"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Trang "+$V{PAGE_NUMBER}+"/"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="515" y="0" width="40" height="20" uuid="436fc545-c781-4772-8794-14adf23714b3"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
