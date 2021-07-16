@@ -48,7 +48,7 @@
             </staticText>
             <image>
                 <reportElement x="0" y="0" width="121" height="99" uuid="2e736e0c-dc06-420e-9467-2746780f7076"/>
-                <imageExpression><![CDATA["F:\\Backup Data\\F\\1. DoAn\\CN Java\\JavaCoffee\\src\\javacoffee\\view\\image\\logo-medium.jpg"]]></imageExpression>
+                <imageExpression><![CDATA[".\\src\\javacoffee\\view\\image\\logo-medium.jpg"]]></imageExpression>
             </image>
             <staticText>
                 <reportElement x="148" y="52" width="72" height="35" uuid="05d82fa8-810a-4b04-b747-43ceb3f8d280"/>
