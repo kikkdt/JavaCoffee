@@ -27,11 +27,11 @@ import javax.swing.table.DefaultTableModel;
  * @author kikkdt (KietDt)
  */
 public class KhuVucGUI extends javax.swing.JPanel {
-    
+
     private DefaultTableModel dtm;
     private ArrayList<KhuVuc_pojo> lstKhuVuc = new KhuVuc_BUS().getList();
     private static KhuVuc_BUS khuvuc = new KhuVuc_BUS();
-    
+
     public KhuVucGUI() {
         initComponents();
         loadTabKhuVuc();
@@ -413,7 +413,7 @@ public class KhuVucGUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        if (tblKhuVuc.getSelectedRowCount() == 0 || tblKhuVuc.getSelectedRowCount() > 1) {
+        if (tblKhuVuc.getSelectedRowCount() != 1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 khu vực để sửa thông tin.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         } else {
             int index = tblKhuVuc.getSelectedRow();
@@ -422,7 +422,7 @@ public class KhuVucGUI extends javax.swing.JPanel {
             int maKV = Integer.parseInt(dtm.getValueAt(index, 0).toString());
             String tenKV = dtm.getValueAt(index, 1).toString();
             txtKhuVuc.setText(tenKV);
-            
+
             if (btnSave.getActionListeners().length != 0) {
                 for (ActionListener item : btnSave.getActionListeners()) {
                     btnSave.removeActionListener(item);
@@ -457,7 +457,7 @@ public class KhuVucGUI extends javax.swing.JPanel {
                 for (int i = 0; i < rowSelected.length; i++) {
                     String tenKV = dtm.getValueAt(rowSelected[i], 1).toString();
                     int maKV = Integer.parseInt(dtm.getValueAt(rowSelected[i], 0).toString());
-                    
+
                     ArrayList<Ban_pojo> lstBan_KV = new Ban_BUS().getList(maKV);
                     // If there exists tables in this area
                     if (!lstBan_KV.isEmpty()) {
@@ -502,13 +502,13 @@ public class KhuVucGUI extends javax.swing.JPanel {
             });
         });
     }//GEN-LAST:event_txtSearchKeyReleased
-    
+
     private void loadTabKhuVuc() {
         lstKhuVuc = new KhuVuc_BUS().getList();
         if (lstKhuVuc.isEmpty()) {
             return;
         }
-        
+
         tblKhuVuc.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tblKhuVuc.getTableHeader().setReorderingAllowed(false);
         tblKhuVuc.setRowHeight(24);
@@ -526,7 +526,7 @@ public class KhuVucGUI extends javax.swing.JPanel {
         tblKhuVuc.getModel().addTableModelListener((TableModelEvent e) -> {
             txtTongSo.setText(tblKhuVuc.getRowCount() + "");
         });
-        
+
         dtm = (DefaultTableModel) tblKhuVuc.getModel();
         dtm.setColumnCount(0);
         dtm.setRowCount(0);
@@ -540,7 +540,7 @@ public class KhuVucGUI extends javax.swing.JPanel {
             tblKhuVuc.getColumnModel().getColumn(i).setResizable(false);
         }
         tblKhuVuc.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        
+
         for (KhuVuc_pojo kv : lstKhuVuc) {
             dtm.addRow(new Object[]{
                 kv.getMaKhuVuc(),

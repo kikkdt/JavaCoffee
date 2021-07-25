@@ -29,12 +29,12 @@ import javax.swing.table.DefaultTableModel;
  * @author kikkdt (KietDt)
  */
 public class TaiKhoanGUI extends javax.swing.JPanel {
-    
+
     private DefaultTableModel dtm;
     private ArrayList<TaiKhoan_pojo> lstTaiKhoan;
     private static LoaiTaiKhoan_BUS loaiTK = new LoaiTaiKhoan_BUS();
     private static NhanVien_BUS nhanvien = new NhanVien_BUS();
-    
+
     public TaiKhoanGUI() {
         initComponents();
         loadTableTaiKhoan();
@@ -554,7 +554,7 @@ public class TaiKhoanGUI extends javax.swing.JPanel {
         tblTaiKhoan.getModel().addTableModelListener((e) -> {
             txtTongSo.setText(tblTaiKhoan.getRowCount() + "");
         });
-        
+
         dtm = (DefaultTableModel) tblTaiKhoan.getModel();
         dtm.setColumnCount(0);
         dtm.setRowCount(0);
@@ -616,14 +616,14 @@ public class TaiKhoanGUI extends javax.swing.JPanel {
                 loadTableTaiKhoan();
             }
         });
-        
+
         dialogTaiKhoan.setModal(true);
         dialogTaiKhoan.setLocationRelativeTo(null);
         dialogTaiKhoan.setVisible(true);
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        if (tblTaiKhoan.getSelectedRowCount() == 0 || tblTaiKhoan.getSelectedRowCount() > 1) {
+        if (tblTaiKhoan.getSelectedRowCount() == 1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 tài khoản để sửa thông tin.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         } else {
             int index = tblTaiKhoan.getSelectedRow();
@@ -635,7 +635,7 @@ public class TaiKhoanGUI extends javax.swing.JPanel {
             txtMatKhau2.setText("");
             txtNhanVien.setText(dtm.getValueAt(index, 5).toString());
             loadCbLoaiTK();
-            
+
             if (btnSave.getActionListeners().length != 0) {
                 for (ActionListener item : btnSave.getActionListeners()) {
                     btnSave.removeActionListener(item);
@@ -658,7 +658,7 @@ public class TaiKhoanGUI extends javax.swing.JPanel {
                     loadTableTaiKhoan();
                 }
             });
-            
+
             dialogTaiKhoan.setModal(true);
             dialogTaiKhoan.setLocationRelativeTo(null);
             dialogTaiKhoan.setVisible(true);
@@ -753,7 +753,7 @@ public class TaiKhoanGUI extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_dialogTaiKhoanformWindowClosing
-    
+
     private ArrayList<NhanVien_pojo> lstNhanVien = new NhanVien_BUS().getList();
     private void txtSearchNhanVienKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchNhanVienKeyReleased
         String strSearch = "^.*" + txtSearchNhanVien.getText().toLowerCase() + ".*$";
@@ -793,7 +793,7 @@ public class TaiKhoanGUI extends javax.swing.JPanel {
             dialogNhanVien.dispose();
         }
     }//GEN-LAST:event_tblNhanVienMouseClicked
-    
+
     public void loadTableNhanVien() {
         tblNhanVien.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tblNhanVien.getTableHeader().setReorderingAllowed(false);
@@ -827,7 +827,7 @@ public class TaiKhoanGUI extends javax.swing.JPanel {
         if (lstNhanVien.isEmpty()) {
             return;
         }
-        
+
         lstNhanVien.forEach((NhanVien_pojo nv) -> {
             dtm.addRow(new Object[]{
                 nv.getMaNV(),
@@ -837,7 +837,7 @@ public class TaiKhoanGUI extends javax.swing.JPanel {
             });
         });
     }
-    
+
     public void loadCbLoaiTK() {
         cbLoaiTK.removeAllItems();
         new LoaiTaiKhoan_BUS().getList().forEach((LoaiTaiKhoan_pojo loaitk) -> cbLoaiTK.addItem(loaitk.getTenLoaiTK()));

@@ -28,11 +28,11 @@ import javax.swing.table.DefaultTableModel;
  * @author kikkdt (KietDt)
  */
 public class CaLamGUI extends javax.swing.JPanel {
-    
+
     private DefaultTableModel dtm;
     private ArrayList<CaLam_pojo> lstCaLam = new CaLam_BUS().getList();
     private static final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-    
+
     public CaLamGUI() {
         initComponents();
         loadTableCaLam();
@@ -397,7 +397,7 @@ public class CaLamGUI extends javax.swing.JPanel {
         txtTenCaLam.setText("");
         txtGioBatDau.setText("");
         txtGioKetThuc.setText("");
-        
+
         if (btnSave.getActionListeners().length != 0) {
             for (ActionListener item : btnSave.getActionListeners()) {
                 btnSave.removeActionListener(item);
@@ -420,7 +420,7 @@ public class CaLamGUI extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Giờ bắt đầu và giờ kết thúc phải là định dạng 24h.\nVí dụ: 07:00 hoặc 22:00", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
                 return;
             }
-            
+
             if (new CaLam_BUS().insert(tenCaLam, gioBatDau, gioKetThuc) > 0) {
                 JOptionPane.showMessageDialog(null, "Thêm ca làm thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 dialogCaLam.dispose();
@@ -436,7 +436,7 @@ public class CaLamGUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        if (tblCaLam.getSelectedRowCount() == 0 || tblCaLam.getSelectedRowCount() > 1) {
+        if (tblCaLam.getSelectedRowCount() != 1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 ca làm để sửa thông tin.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         } else {
             int index = tblCaLam.getSelectedRow();
@@ -445,7 +445,7 @@ public class CaLamGUI extends javax.swing.JPanel {
             txtTenCaLam.setText(dtm.getValueAt(index, 1).toString());
             txtGioBatDau.setText(dtm.getValueAt(index, 2).toString());
             txtGioKetThuc.setText(dtm.getValueAt(index, 3).toString());
-            
+
             if (btnSave.getActionListeners().length != 0) {
                 for (ActionListener item : btnSave.getActionListeners()) {
                     btnSave.removeActionListener(item);
@@ -559,13 +559,13 @@ public class CaLamGUI extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_dialogCaLamWindowClosing
-    
+
     private void loadTableCaLam() {
         lstCaLam = new CaLam_BUS().getList();
         if (lstCaLam.isEmpty()) {
             return;
         }
-        
+
         tblCaLam.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tblCaLam.getTableHeader().setReorderingAllowed(false);
         tblCaLam.setRowHeight(24);
@@ -583,7 +583,7 @@ public class CaLamGUI extends javax.swing.JPanel {
         tblCaLam.getModel().addTableModelListener((TableModelEvent e) -> {
             txtTongSo.setText(tblCaLam.getRowCount() + "");
         });
-        
+
         dtm = (DefaultTableModel) tblCaLam.getModel();
         dtm.setColumnCount(0);
         dtm.setRowCount(0);

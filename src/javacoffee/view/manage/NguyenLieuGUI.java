@@ -27,11 +27,11 @@ import javax.swing.table.DefaultTableModel;
  * @author kikkdt (KietDt)
  */
 public class NguyenLieuGUI extends javax.swing.JPanel {
-    
+
     private DefaultTableModel dtm;
     private ArrayList<NguyenLieu_pojo> lstNgLieu = new NguyenLieu_BUS().getList();
     private static NhaCungCap_BUS ncc = new NhaCungCap_BUS();
-    
+
     public NguyenLieuGUI() {
         initComponents();
         loadTableNguyenLieu();
@@ -484,7 +484,7 @@ public class NguyenLieuGUI extends javax.swing.JPanel {
         txtDonViTinh.setText("");
         txtDonGia.setText("");
         txtMoTa.setText("");
-        
+
         if (btnSave.getActionListeners().length != 0) {
             for (ActionListener item : btnSave.getActionListeners()) {
                 btnSave.removeActionListener(item);
@@ -500,7 +500,7 @@ public class NguyenLieuGUI extends javax.swing.JPanel {
                 return;
             }
             String moTa = txtMoTa.getText().isBlank() ? null : txtMoTa.getText();
-            
+
             if (new NguyenLieu_BUS().insert(txtTenNL.getText().trim(), maNCC, txtDonViTinh.getText().trim(), donGia, moTa) > 0) {
                 JOptionPane.showMessageDialog(null, "Thêm nguyên liệu thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 dialogNgLieu.dispose();
@@ -508,7 +508,7 @@ public class NguyenLieuGUI extends javax.swing.JPanel {
                 loadTableNguyenLieu();
             }
         });
-        
+
         dialogNgLieu.getRootPane().setDefaultButton(btnSave);
         dialogNgLieu.setLocationRelativeTo(null);
         dialogNgLieu.setModal(true);
@@ -516,7 +516,7 @@ public class NguyenLieuGUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        if (tblNguyenLieu.getSelectedRowCount() == 0 || tblNguyenLieu.getSelectedRowCount() > 1) {
+        if (tblNguyenLieu.getSelectedRowCount() == 1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 nhà cung cấp để sửa thông tin.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         } else {
             int index = tblNguyenLieu.getSelectedRow();
@@ -530,7 +530,7 @@ public class NguyenLieuGUI extends javax.swing.JPanel {
             String tmpDonGia = dtm.getValueAt(index, 4).toString();
             txtDonGia.setText(new StringBuilder(tmpDonGia).deleteCharAt(tmpDonGia.indexOf(".")).toString());
             txtMoTa.setText(dtm.getValueAt(index, 5) == null ? "" : dtm.getValueAt(index, 5).toString());
-            
+
             if (btnSave.getActionListeners().length != 0) {
                 for (ActionListener item : btnSave.getActionListeners()) {
                     btnSave.removeActionListener(item);
@@ -545,7 +545,7 @@ public class NguyenLieuGUI extends javax.swing.JPanel {
                     return;
                 }
                 String moTa = txtMoTa.getText().isBlank() ? null : txtMoTa.getText();
-                
+
                 if (new NguyenLieu_BUS().update(maNL, txtTenNL.getText().trim(), maNCC, txtDonViTinh.getText().trim(), donGia, moTa) > 0) {
                     JOptionPane.showMessageDialog(null, "Cập nhật nguyên liệu thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                     dialogNgLieu.dispose();
@@ -553,7 +553,7 @@ public class NguyenLieuGUI extends javax.swing.JPanel {
                     loadTableNguyenLieu();
                 }
             });
-            
+
             dialogNgLieu.getRootPane().setDefaultButton(btnSave);
             dialogNgLieu.setLocationRelativeTo(null);
             dialogNgLieu.setModal(true);
@@ -598,7 +598,7 @@ public class NguyenLieuGUI extends javax.swing.JPanel {
             });
         });
     }//GEN-LAST:event_txtSearchKeyReleased
-    
+
     private void loadCbNhaCungCap() {
         ArrayList<NhaCungCap_pojo> lstNCC = ncc.getList();
         if (lstNCC.isEmpty()) {
@@ -607,13 +607,13 @@ public class NguyenLieuGUI extends javax.swing.JPanel {
             lstNCC.forEach(item -> cbNCC.addItem(item.getTenNCC()));
         }
     }
-    
+
     private void loadTableNguyenLieu() {
         lstNgLieu = new NguyenLieu_BUS().getList();
         if (lstNgLieu.isEmpty()) {
             return;
         }
-        
+
         tblNguyenLieu.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tblNguyenLieu.getTableHeader().setReorderingAllowed(false);
         tblNguyenLieu.setRowHeight(24);
@@ -631,7 +631,7 @@ public class NguyenLieuGUI extends javax.swing.JPanel {
         tblNguyenLieu.getModel().addTableModelListener((TableModelEvent e) -> {
             txtTongSo.setText(tblNguyenLieu.getRowCount() + "");
         });
-        
+
         dtm = (DefaultTableModel) tblNguyenLieu.getModel();
         dtm.setColumnCount(0);
         dtm.setRowCount(0);
@@ -649,7 +649,7 @@ public class NguyenLieuGUI extends javax.swing.JPanel {
             tblNguyenLieu.getColumnModel().getColumn(i).setResizable(false);
         }
         tblNguyenLieu.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        
+
         lstNgLieu.forEach(nl -> {
             dtm.addRow(new Object[]{
                 nl.getMaNL(),

@@ -27,10 +27,10 @@ import javax.swing.table.DefaultTableModel;
  * @author kikkdt (KietDt)
  */
 public class DanhMucGUI extends javax.swing.JPanel {
-    
+
     private DefaultTableModel dtm;
     private ArrayList<DanhMuc_pojo> lstDanhMuc = new DanhMuc_BUS().getList();
-    
+
     public DanhMucGUI() {
         initComponents();
         loadTableDanhMuc();
@@ -393,7 +393,7 @@ public class DanhMucGUI extends javax.swing.JPanel {
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         lblDanhMuc.setText("Thêm Danh mục");
         txtDanhMuc.setText("");
-        
+
         if (btnSave.getActionListeners().length != 0) {
             for (ActionListener item : btnSave.getActionListeners()) {
                 btnSave.removeActionListener(item);
@@ -407,7 +407,7 @@ public class DanhMucGUI extends javax.swing.JPanel {
                 loadTableDanhMuc();
             }
         });
-        
+
         dialogDanhMuc.getRootPane().setDefaultButton(btnSave);
         dialogDanhMuc.setLocationRelativeTo(null);
         dialogDanhMuc.setModal(true);
@@ -415,7 +415,7 @@ public class DanhMucGUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        if (tblDanhMuc.getSelectedRowCount() == 0 || tblDanhMuc.getSelectedRowCount() > 1) {
+        if (tblDanhMuc.getSelectedRowCount() != 1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 danh mục để sửa thông tin.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         } else {
             int index = tblDanhMuc.getSelectedRow();
@@ -423,7 +423,7 @@ public class DanhMucGUI extends javax.swing.JPanel {
             dtm = (DefaultTableModel) tblDanhMuc.getModel();
             int maDanhMuc = Integer.parseInt(dtm.getValueAt(index, 0).toString());
             txtDanhMuc.setText(dtm.getValueAt(index, 1).toString());
-            
+
             if (btnSave.getActionListeners().length != 0) {
                 for (ActionListener item : btnSave.getActionListeners()) {
                     btnSave.removeActionListener(item);
@@ -437,7 +437,7 @@ public class DanhMucGUI extends javax.swing.JPanel {
                     loadTableDanhMuc();
                 }
             });
-            
+
             dialogDanhMuc.getRootPane().setDefaultButton(btnSave);
             dialogDanhMuc.setLocationRelativeTo(null);
             dialogDanhMuc.setModal(true);
@@ -490,13 +490,13 @@ public class DanhMucGUI extends javax.swing.JPanel {
             });
         });
     }//GEN-LAST:event_txtSearchKeyReleased
-    
+
     private void loadTableDanhMuc() {
         lstDanhMuc = new DanhMuc_BUS().getList();
         if (lstDanhMuc.isEmpty()) {
             return;
         }
-        
+
         tblDanhMuc.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tblDanhMuc.getTableHeader().setReorderingAllowed(false);
         tblDanhMuc.setRowHeight(24);
@@ -514,7 +514,7 @@ public class DanhMucGUI extends javax.swing.JPanel {
         tblDanhMuc.getModel().addTableModelListener((TableModelEvent e) -> {
             txtTongSo.setText(tblDanhMuc.getRowCount() + "");
         });
-        
+
         dtm = (DefaultTableModel) tblDanhMuc.getModel();
         dtm.setColumnCount(0);
         dtm.setRowCount(0);
@@ -528,7 +528,7 @@ public class DanhMucGUI extends javax.swing.JPanel {
             tblDanhMuc.getColumnModel().getColumn(i).setResizable(false);
         }
         tblDanhMuc.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        
+
         lstDanhMuc.forEach(dm -> {
             dtm.addRow(new Object[]{
                 dm.getMaDanhMuc(),

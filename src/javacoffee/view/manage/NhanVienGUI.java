@@ -31,11 +31,11 @@ import javax.swing.table.DefaultTableModel;
  * @author kikkdt (KietDt)
  */
 public class NhanVienGUI extends javax.swing.JPanel {
-    
+
     private DefaultTableModel dtm;
     private ArrayList<NhanVien_pojo> lstNhanVien = new NhanVien_BUS().getList();
     private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    
+
     public NhanVienGUI() {
         initComponents();
         loadTableNhanVien();
@@ -476,7 +476,7 @@ public class NhanVienGUI extends javax.swing.JPanel {
         dateChooser.cleanup();
         txtDiaChi.setText("");
         txtSdt.setText("");
-        
+
         if (btnSave.getActionListeners().length != 0) {
             for (ActionListener item : btnSave.getActionListeners()) {
                 btnSave.removeActionListener(item);
@@ -503,7 +503,7 @@ public class NhanVienGUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        if (tblNhanVien.getSelectedRowCount() == 0 || tblNhanVien.getSelectedRowCount() > 1) {
+        if (tblNhanVien.getSelectedRowCount() == 1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 nhân viên để sửa thông tin.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         } else {
             int index = tblNhanVien.getSelectedRow();
@@ -523,7 +523,7 @@ public class NhanVienGUI extends javax.swing.JPanel {
             }
             txtDiaChi.setText(dtm.getValueAt(index, 5).toString());
             txtSdt.setText(dtm.getValueAt(index, 6).toString());
-            
+
             if (btnSave.getActionListeners().length != 0) {
                 for (ActionListener item : btnSave.getActionListeners()) {
                     btnSave.removeActionListener(item);
@@ -630,13 +630,13 @@ public class NhanVienGUI extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_dialogNhanVienWindowClosing
-    
+
     private void loadTableNhanVien() {
         lstNhanVien = new NhanVien_BUS().getList();
         if (lstNhanVien.isEmpty()) {
             return;
         }
-        
+
         tblNhanVien.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tblNhanVien.getTableHeader().setReorderingAllowed(false);
         tblNhanVien.setRowHeight(24);
@@ -654,7 +654,7 @@ public class NhanVienGUI extends javax.swing.JPanel {
         tblNhanVien.getModel().addTableModelListener((TableModelEvent e) -> {
             txtTongSo.setText(tblNhanVien.getRowCount() + "");
         });
-        
+
         dtm = (DefaultTableModel) tblNhanVien.getModel();
         dtm.setColumnCount(0);
         dtm.setRowCount(0);

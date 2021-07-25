@@ -27,12 +27,12 @@ import javax.swing.table.DefaultTableModel;
  * @author kikkdt (KietDt)
  */
 public class BanGUI extends javax.swing.JPanel {
-    
+
     private DefaultTableModel dtm;
     private ArrayList<KhuVuc_pojo> lstKhuVuc = new KhuVuc_BUS().getList();
     private ArrayList<Ban_pojo> lstBan = new Ban_BUS().getList();
     private static KhuVuc_BUS khuvuc = new KhuVuc_BUS();
-    
+
     public BanGUI() {
         initComponents();
         loadTableBan();
@@ -406,7 +406,7 @@ public class BanGUI extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_dialogBanWindowClosing
-    
+
     private void loadCbKhuVuc() {
         lstKhuVuc = new KhuVuc_BUS().getList();
         if (lstKhuVuc.isEmpty()) {
@@ -442,7 +442,7 @@ public class BanGUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThemBanActionPerformed
 
     private void btnSuaBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaBanActionPerformed
-        if (tblBan.getSelectedRowCount() == 0 || tblBan.getSelectedRowCount() > 1) {
+        if (tblBan.getSelectedRowCount() != 1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 bàn để sửa thông tin.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         } else {
             khuvuc = new KhuVuc_BUS();
@@ -453,7 +453,7 @@ public class BanGUI extends javax.swing.JPanel {
             int maBan = Integer.parseInt(dtm.getValueAt(index, 0).toString());
             txtBan.setText(dtm.getValueAt(index, 1).toString());
             cbKhuVuc.setSelectedItem(dtm.getValueAt(index, 2).toString());
-            
+
             if (btnSave.getActionListeners().length != 0) {
                 for (ActionListener item : btnSave.getActionListeners()) {
                     btnSave.removeActionListener(item);
@@ -514,13 +514,13 @@ public class BanGUI extends javax.swing.JPanel {
             }
         });
     }//GEN-LAST:event_txtSearchKeyReleased
-    
+
     private void loadTableBan() {
         lstBan = new Ban_BUS().getList();
         if (lstBan.isEmpty()) {
             return;
         }
-        
+
         tblBan.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tblBan.getTableHeader().setReorderingAllowed(false);
         tblBan.setRowHeight(24);
@@ -533,12 +533,12 @@ public class BanGUI extends javax.swing.JPanel {
             public boolean isCellEditable(int row, int column) {
                 //all cells false
                 return false;
-            }            
+            }
         });
         tblBan.getModel().addTableModelListener((TableModelEvent e) -> {
             txtTongSo.setText(tblBan.getRowCount() + "");
         });
-        
+
         dtm = (DefaultTableModel) tblBan.getModel();
         dtm.setColumnCount(0);
         dtm.setRowCount(0);
@@ -554,7 +554,7 @@ public class BanGUI extends javax.swing.JPanel {
             tblBan.getColumnModel().getColumn(i).setResizable(false);
         }
         tblBan.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        
+
         khuvuc = new KhuVuc_BUS();
         if (khuvuc.getList().isEmpty()) {
             return;

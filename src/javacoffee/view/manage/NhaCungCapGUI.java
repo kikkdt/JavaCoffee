@@ -29,10 +29,10 @@ import javax.swing.table.DefaultTableModel;
  * @author kikkdt (KietDt)
  */
 public class NhaCungCapGUI extends javax.swing.JPanel {
-    
+
     private DefaultTableModel dtm;
     private ArrayList<NhaCungCap_pojo> lstNCC = new NhaCungCap_BUS().getList();
-    
+
     public NhaCungCapGUI() {
         initComponents();
         loadTableNhaCungCap();
@@ -418,7 +418,7 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
         lblNCC.setText("Thêm Nhà cung cấp");
         txtNCC.setText("");
         txtSdt.setText("");
-        
+
         if (btnSave.getActionListeners().length != 0) {
             for (ActionListener item : btnSave.getActionListeners()) {
                 btnSave.removeActionListener(item);
@@ -432,7 +432,7 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
                 loadTableNhaCungCap();
             }
         });
-        
+
         dialogNCC.getRootPane().setDefaultButton(btnSave);
         dialogNCC.setLocationRelativeTo(null);
         dialogNCC.setModal(true);
@@ -440,7 +440,7 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        if (tblNhaCungCap.getSelectedRowCount() == 0 || tblNhaCungCap.getSelectedRowCount() > 1) {
+        if (tblNhaCungCap.getSelectedRowCount() == 1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 nhà cung cấp để sửa thông tin.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         } else {
             int index = tblNhaCungCap.getSelectedRow();
@@ -449,7 +449,7 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
             int maNCC = Integer.parseInt(dtm.getValueAt(index, 0).toString());
             txtNCC.setText(dtm.getValueAt(index, 1).toString());
             txtSdt.setText(dtm.getValueAt(index, 2).toString());
-            
+
             if (btnSave.getActionListeners().length != 0) {
                 for (ActionListener item : btnSave.getActionListeners()) {
                     btnSave.removeActionListener(item);
@@ -463,7 +463,7 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
                     loadTableNhaCungCap();
                 }
             });
-            
+
             dialogNCC.getRootPane().setDefaultButton(btnSave);
             dialogNCC.setLocationRelativeTo(null);
             dialogNCC.setModal(true);
@@ -517,13 +517,13 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
             });
         });
     }//GEN-LAST:event_txtSearchKeyReleased
-    
+
     private void loadTableNhaCungCap() {
         lstNCC = new NhaCungCap_BUS().getList();
         if (lstNCC.isEmpty()) {
             return;
         }
-        
+
         tblNhaCungCap.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tblNhaCungCap.getTableHeader().setReorderingAllowed(false);
         tblNhaCungCap.setRowHeight(24);
@@ -541,7 +541,7 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
         tblNhaCungCap.getModel().addTableModelListener((TableModelEvent e) -> {
             txtTongSo.setText(tblNhaCungCap.getRowCount() + "");
         });
-        
+
         dtm = (DefaultTableModel) tblNhaCungCap.getModel();
         dtm.setColumnCount(0);
         dtm.setRowCount(0);
@@ -556,7 +556,7 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
             tblNhaCungCap.getColumnModel().getColumn(i).setResizable(false);
         }
         tblNhaCungCap.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        
+
         lstNCC.forEach(ncc -> {
             dtm.addRow(new Object[]{
                 ncc.getMaNCC(),
