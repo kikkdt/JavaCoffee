@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import javacoffee.pojo.Ban_pojo;
 import javacoffee.pojo.KhuVuc_pojo;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -91,7 +92,7 @@ public class OrderGUI extends javax.swing.JPanel {
      */
     public OrderGUI(TaiKhoan_pojo account) {
         initComponents();
-        loadPanelBan();
+        new Thread(new RunnablePanelBan()).start();
         pnlBillEmpty.setVisible(false);
         bgrBill.setVisible(true);
         this.account = account;
@@ -541,32 +542,78 @@ public class OrderGUI extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void loadPnlRight(boolean displayMenu) {
-        pnlRight.removeAll();
-        if (displayMenu) {
-            if (tabPnlMenu.getTabCount() == 0) {
-                loadMenu();
+    private class RunnablePanelRight implements Runnable {
+
+        private boolean displayMenu;
+
+        public boolean isDisplayMenu() {
+            return displayMenu;
+        }
+
+        public void setDisplayMenu(boolean displayMenu) {
+            this.displayMenu = displayMenu;
+        }
+
+        public RunnablePanelRight(boolean displayMenu) {
+            super();
+            this.displayMenu = displayMenu;
+        }
+
+        @Override
+        public void run() {
+            pnlRight.removeAll();
+            if (isDisplayMenu()) {
+                if (tabPnlMenu.getTabCount() == 0) {
+                    loadMenu();
+                }
+                pnlRight.add(tabPnlMenu);
+            } else {
+                pnlRight.add(bgrMenu);
             }
-            pnlRight.add(tabPnlMenu);
-        } else {
-            pnlRight.add(bgrMenu);
+            pnlRight.repaint();
+            pnlRight.revalidate();
         }
-        pnlRight.repaint();
-        pnlRight.revalidate();
     }
 
-    private void loadPnlCenter(boolean displayBillEmpty) {
-        pnlCenter.removeAll();
-        if (displayBillEmpty) {
-            pnlCenter.add(pnlBillEmpty);
-        } else {
-            pnlCenter.add(bgrBill);
+    private class RunnablePanelCenter implements Runnable {
+
+        private boolean displayBillEmpty;
+
+        public boolean isDisplayBillEmpty() {
+            return displayBillEmpty;
         }
-        pnlCenter.repaint();
-        pnlCenter.revalidate();
+
+        public void setDisplayBillEmpty(boolean displayBillEmpty) {
+            this.displayBillEmpty = displayBillEmpty;
+        }
+
+        public RunnablePanelCenter(boolean displayBillEmpty) {
+            super();
+            this.displayBillEmpty = displayBillEmpty;
+        }
+
+        @Override
+        public void run() {
+            pnlCenter.removeAll();
+            if (isDisplayBillEmpty()) {
+                pnlCenter.add(pnlBillEmpty);
+            } else {
+                pnlCenter.add(bgrBill);
+            }
+            pnlCenter.repaint();
+            pnlCenter.revalidate();
+        }
     }
 
-    private void loadPanelBan() {
+    private class RunnablePanelBan implements Runnable {
+
+        @Override
+        public void run() {
+            loadBan();
+        }
+    }
+
+    private void loadBan() {
         ArrayList<KhuVuc_pojo> lstKhuVuc = new KhuVuc_BUS().getList();
         if (lstKhuVuc.isEmpty()) {
             return;
@@ -603,15 +650,15 @@ public class OrderGUI extends javax.swing.JPanel {
                 btnBan.addActionListener((ActionEvent e) -> {
                     tableSelected = btnBan;
                     if (ban.isTrangThai()) {
-                        loadBillServed(ban.getMaBan());
-                        loadPnlRight(true);
+                        new Thread(new RunnableBillServed(ban.getMaBan())).start();
+                        new Thread(new RunnablePanelRight(true)).start();
                     } else {
                         thanhtoan = null;
                         lblTeNBan.setText(ban.getTenBan());
                         lblKhuVuc.setText(kv.getTenKhuVuc());
                         lblTrangThai.setText("Bàn trống");
-                        loadPnlCenter(true);
-                        loadPnlRight(false);
+                        new Thread(new RunnablePanelCenter(true)).start();
+                        new Thread(new RunnablePanelRight(false)).start();
                     }
                 });
                 return btnBan;
@@ -623,65 +670,83 @@ public class OrderGUI extends javax.swing.JPanel {
         }
     }
 
-    private void loadBillServed(int maBan) {
-        //Get bill info is "unpaid" with table number selected
-        thanhtoan = new ThanhToan_BUS().getThanhToan(maBan);
-        if (thanhtoan == null) {
-            return;
+    private class RunnableBillServed implements Runnable {
+
+        private int maBan;
+
+        public int getMaBan() {
+            return maBan;
         }
 
-        lblTeNBan1.setText(thanhtoan.getBan().getTenBan());
-        lblTrangThai1.setText(thanhtoan.getBan().isTrangThai() == true ? "Đang phục vụ" : "Bàn trống");
-        lblKhuVuc1.setText(thanhtoan.getKhuvuc().getTenKhuVuc());
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        lblGioDen.setText(sdf.format(thanhtoan.getHoadon().getNgayXuatHD()));
-        String tenKH = kh.getTenKH(thanhtoan.getHoadon().getMaKH());
-        txtKhachHang.setText(tenKH);
-        lblTongTien.setText(String.format("%,.0f", thanhtoan.getHoadon().getTongTien()));
-        lblGiamGia.setText(String.format("%,.0f", thanhtoan.getHoadon().getGiamGia()));
-        lblThanhTien.setText(String.format("%,.0f", thanhtoan.getHoadon().getThanhTien()));
+        public void setMaBan(int maBan) {
+            this.maBan = maBan;
+        }
 
-        tblProducts.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
-        tblProducts.getTableHeader().setReorderingAllowed(false);
-        tblProducts.setRowHeight(24);
-        tblProducts.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        tblProducts.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        public RunnableBillServed(int maBan) {
+            this.maBan = maBan;
+        }
 
-        //Set DefaultTableModel & add header table
-        tblProducts.setModel(new DefaultTableModel() {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                //all cells false
-                return false;
+        @Override
+        public void run() {
+            //Get bill info is "unpaid" with table number selected
+            thanhtoan = new ThanhToan_BUS().getThanhToan(maBan);
+            if (thanhtoan == null) {
+                return;
             }
-        });
-        dtm = (DefaultTableModel) tblProducts.getModel();
-        dtm.setColumnCount(0);
-        dtm.setRowCount(0);
-        dtm.addColumn("Tên");
-        dtm.addColumn("Số lượng");
-        dtm.addColumn("Đơn giá");
-        dtm.addColumn("Thành tiền");
 
-        //Setting column width & turn off resizable
-        tblProducts.getColumnModel().getColumn(0).setPreferredWidth(140);
-        tblProducts.getColumnModel().getColumn(1).setPreferredWidth(60);
-        for (int i = 0; i < 4; i++) {
-            tblProducts.getColumnModel().getColumn(i).setResizable(false);
-        }
-        tblProducts.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        thanhtoan.getCtHoaDon().forEach(cthd -> {
-            dtm.addRow(new Object[]{
-                sp.getTenSP(cthd.getMaSP()),
-                cthd.getSoLuong(),
-                String.format("%,.0f", sp.getGiaBan(cthd.getMaSP())),
-                String.format("%,.0f", cthd.getThanhTien())
+            lblTeNBan1.setText(thanhtoan.getBan().getTenBan());
+            lblTrangThai1.setText(thanhtoan.getBan().isTrangThai() == true ? "Đang phục vụ" : "Bàn trống");
+            lblKhuVuc1.setText(thanhtoan.getKhuvuc().getTenKhuVuc());
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            lblGioDen.setText(sdf.format(thanhtoan.getHoadon().getNgayXuatHD()));
+            String tenKH = kh.getTenKH(thanhtoan.getHoadon().getMaKH());
+            txtKhachHang.setText(tenKH);
+            lblTongTien.setText(String.format("%,.0f", thanhtoan.getHoadon().getTongTien()));
+            lblGiamGia.setText(String.format("%,.0f", thanhtoan.getHoadon().getGiamGia()));
+            lblThanhTien.setText(String.format("%,.0f", thanhtoan.getHoadon().getThanhTien()));
+
+            tblProducts.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+            tblProducts.getTableHeader().setReorderingAllowed(false);
+            tblProducts.setRowHeight(24);
+            tblProducts.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+            tblProducts.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+            //Set DefaultTableModel & add header table
+            tblProducts.setModel(new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    //all cells false
+                    return false;
+                }
             });
-        });
-        pnlCenter.removeAll();
-        pnlCenter.add(pnlBillServed);
-        pnlCenter.repaint();
-        pnlCenter.revalidate();
+            dtm = (DefaultTableModel) tblProducts.getModel();
+            dtm.setColumnCount(0);
+            dtm.setRowCount(0);
+            dtm.addColumn("Tên");
+            dtm.addColumn("Số lượng");
+            dtm.addColumn("Đơn giá");
+            dtm.addColumn("Thành tiền");
+
+            //Setting column width & turn off resizable
+            tblProducts.getColumnModel().getColumn(0).setPreferredWidth(140);
+            tblProducts.getColumnModel().getColumn(1).setPreferredWidth(60);
+            for (int i = 0; i < 4; i++) {
+                tblProducts.getColumnModel().getColumn(i).setResizable(false);
+            }
+            tblProducts.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+            thanhtoan.getCtHoaDon().forEach(cthd -> {
+                dtm.addRow(new Object[]{
+                    sp.getTenSP(cthd.getMaSP()),
+                    cthd.getSoLuong(),
+                    String.format("%,.0f", sp.getGiaBan(cthd.getMaSP())),
+                    String.format("%,.0f", cthd.getThanhTien())
+                });
+            });
+            pnlCenter.removeAll();
+            pnlCenter.add(pnlBillServed);
+            pnlCenter.repaint();
+            pnlCenter.revalidate();
+        }
     }
 
     private void loadMenu() {
@@ -731,7 +796,7 @@ public class OrderGUI extends javax.swing.JPanel {
                         if (e.getClickCount() == 2 && !e.isConsumed()) {
                             e.consume();
                             if (new CTHoaDon_BUS().insert(thanhtoan.getHoadon().getMaHD(), Integer.parseInt(btnMenu.getActionCommand())) > 0) {
-                                loadBillServed(Integer.parseInt(tableSelected.getActionCommand()));
+                                new Thread(new RunnableBillServed(Integer.parseInt(tableSelected.getActionCommand()))).start();
                             } else {
                                 JOptionPane.showMessageDialog(null, "Order thất bại :(", "Lỗi gọi món", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
                             }
@@ -765,24 +830,30 @@ public class OrderGUI extends javax.swing.JPanel {
     }
 
     private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderActionPerformed
-        //Add new Bill
-        new HoaDon_BUS().insert(account.getMaNV(), Integer.parseInt(tableSelected.getActionCommand()));
-        int indexCurrent = pnlBan.getSelectedIndex();
-        pnlBan.removeAll();
-        loadPanelBan();
-        pnlBan.setSelectedIndex(indexCurrent);
+        try {
+            //Add new Bill
+            new HoaDon_BUS().insert(account.getMaNV(), Integer.parseInt(tableSelected.getActionCommand()));
+            int indexCurrent = pnlBan.getSelectedIndex();
+            pnlBan.removeAll();
+            Thread threadBan = new Thread(new RunnablePanelBan());
+            threadBan.start();
+            threadBan.join();
+            pnlBan.setSelectedIndex(indexCurrent);
 
-        //Refresh panel Center
-        loadBillServed(Integer.parseInt(tableSelected.getActionCommand()));
-        //Load menu
-        loadPnlRight(true);
+            //Refresh panel Center
+            new Thread(new RunnableBillServed(Integer.parseInt(tableSelected.getActionCommand()))).start();
+            //Load menu
+            new Thread(new RunnablePanelRight(true)).start();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(OrderGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnOrderActionPerformed
 
     private void btnTroVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTroVeActionPerformed
         //Reset background panel Center
-        loadPnlCenter(false);
+        new Thread(new RunnablePanelCenter(false)).start();
         //Reset background panel Right
-        loadPnlRight(false);
+        new Thread(new RunnablePanelRight(false)).start();
     }//GEN-LAST:event_btnTroVeActionPerformed
 
     private void tblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductsMouseClicked
@@ -800,7 +871,7 @@ public class OrderGUI extends javax.swing.JPanel {
                     if (new CTHoaDon_BUS().update(thanhtoan.getHoadon().getMaHD(), maSP, soLuong) > 0) {
                         dlg.btnSave.setActionCommand("performed");
                         dlg.dispose();
-                        loadBillServed(maBan);
+                        new Thread(new RunnableBillServed(maBan)).start();
                     } else {
                         JOptionPane.showMessageDialog(null, "Lưu không thành công.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
                     }
@@ -809,7 +880,7 @@ public class OrderGUI extends javax.swing.JPanel {
                         dlg.btnSave.setActionCommand("performed");
                         JOptionPane.showMessageDialog(null, "Xoá thành công.", "Chúc mừng", JOptionPane.INFORMATION_MESSAGE);
                         dlg.dispose();
-                        loadBillServed(maBan);
+                        new Thread(new RunnableBillServed(maBan)).start();
                     } else {
                         JOptionPane.showMessageDialog(null, "Xoá không thành công.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
                     }
@@ -822,6 +893,7 @@ public class OrderGUI extends javax.swing.JPanel {
     }//GEN-LAST:event_tblProductsMouseClicked
 
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         int maHD = thanhtoan.getHoadon().getMaHD();
         String tenKH = kh.getTenKH(thanhtoan.getHoadon().getMaKH());
         int diemTichLuy = kh.getDiemTichLuy(thanhtoan.getHoadon().getMaKH());
@@ -882,10 +954,13 @@ public class OrderGUI extends javax.swing.JPanel {
                     jasperViewer.setVisible(true);
 
                 } catch (FileNotFoundException | JRException ex) {
-                    Logger.getLogger(TinhLuongGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(TinhLuongGUI.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
+                this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             } else {
                 JOptionPane.showMessageDialog(null, "THANH TOÁN THẤT BẠI.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
+                this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
         });
 
@@ -893,10 +968,16 @@ public class OrderGUI extends javax.swing.JPanel {
         payment.setVisible(true);
         int indexCurrent = pnlBan.getSelectedIndex();
         pnlBan.removeAll();
-        loadPanelBan();
+        Thread threadBan = new Thread(new RunnablePanelBan());
+        threadBan.start();
+        try {
+            threadBan.join();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(OrderGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         pnlBan.setSelectedIndex(indexCurrent);
-        loadPnlCenter(true);
-        loadPnlRight(false);
+        new Thread(new RunnablePanelCenter(true)).start();
+        new Thread(new RunnablePanelRight(false)).start();
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
@@ -910,7 +991,7 @@ public class OrderGUI extends javax.swing.JPanel {
                     txtKhachHang.setText(dlg.dtm.getValueAt(rowSelected, 2).toString());
                     int maKH = Integer.parseInt(dlg.dtm.getValueAt(rowSelected, 1).toString());
                     new HoaDon_BUS().update(thanhtoan.getHoadon().getMaHD(), maKH);
-                    loadBillServed(Integer.parseInt(tableSelected.getActionCommand()));
+                    new Thread(new RunnableBillServed(Integer.parseInt(tableSelected.getActionCommand()))).start();
                     dlg.dispose();
                 }
             }
