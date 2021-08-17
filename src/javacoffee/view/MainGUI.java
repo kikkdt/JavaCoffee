@@ -22,6 +22,7 @@ import javacoffee.view.manage.TaiKhoanGUI;
 import javacoffee.view.manage.SanPhamGUI;
 import javacoffee.view.manage.TinhLuongGUI;
 import javacoffee.view.feature.MemberGUI;
+import javacoffee.view.manage.SaoLuuGUI;
 import javacoffee.view.manage.ThongKeGUI;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -107,6 +108,8 @@ public class MainGUI extends javax.swing.JFrame {
         btnTaiKhoan = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
         btnThongKe = new javax.swing.JButton();
+        jPanel7 = new javax.swing.JPanel();
+        btnBackup = new javax.swing.JButton();
         pnlManage = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnTaiKhoan = new javax.swing.JMenu();
@@ -119,7 +122,6 @@ public class MainGUI extends javax.swing.JFrame {
         );
         jDialog1.setMinimumSize(new java.awt.Dimension(400, 315));
         jDialog1.setModal(true);
-        jDialog1.setPreferredSize(new java.awt.Dimension(400, 315));
         jDialog1.setResizable(false);
 
         jPanel5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(149, 87, 29), 2, true));
@@ -571,7 +573,7 @@ public class MainGUI extends javax.swing.JFrame {
         btnThongKe.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnThongKe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons8-account-24.png"))); // NOI18N
         btnThongKe.setText("Thống kê");
-        btnThongKe.setToolTipText("Doanh thu");
+        btnThongKe.setToolTipText("Thống kê");
         btnThongKe.setBorderPainted(false);
         btnThongKe.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnThongKe.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -599,6 +601,32 @@ public class MainGUI extends javax.swing.JFrame {
                     .addGap(0, 0, 0)))
         );
 
+        btnBackup.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnBackup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saoluu.png"))); // NOI18N
+        btnBackup.setText("Sao lưu & Phục hồi");
+        btnBackup.setToolTipText("Sao lưu & Phục hồi");
+        btnBackup.setBorderPainted(false);
+        btnBackup.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnBackup.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnBackup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackupActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addComponent(btnBackup, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnBackup, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -609,7 +637,9 @@ public class MainGUI extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(259, 259, 259)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(96, 96, 96)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel4Layout.createSequentialGroup()
                     .addGap(416, 416, 416)
@@ -631,6 +661,7 @@ public class MainGUI extends javax.swing.JFrame {
             .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel4Layout.createSequentialGroup()
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -824,7 +855,13 @@ public class MainGUI extends javax.swing.JFrame {
         jDialog1.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
+    private void btnBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackupActionPerformed
+        SaoLuuGUI saoluu = new SaoLuuGUI(MainGUI.this, true);
+        saoluu.setVisible(true);
+    }//GEN-LAST:event_btnBackupActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBackup;
     private javax.swing.JButton btnBan;
     private javax.swing.JButton btnCaLam;
     private javax.swing.JButton btnCancel;
@@ -860,6 +897,7 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     protected javax.swing.JLabel lblTitle;
