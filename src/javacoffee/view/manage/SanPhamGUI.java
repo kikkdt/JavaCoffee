@@ -545,7 +545,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        if (tblSanPham.getSelectedRowCount() == 1) {
+        if (tblSanPham.getSelectedRowCount() != 1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 món ăn/ thức uống để sửa thông tin.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         } else {
             loadCbDanhMuc();
