@@ -87,6 +87,7 @@ public class DanhMucGUI extends javax.swing.JPanel {
 
         txtDanhMuc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtDanhMuc.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtDanhMuc.setToolTipText("Nhập tên danh mục");
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(96, 56, 19));

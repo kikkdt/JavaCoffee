@@ -46,7 +46,9 @@ public class DanhMuc_BUS {
 
         if (!tenDanhMuc.isBlank() && !chkTenDanhMuc) {
             return DanhMuc_DAO.insert(tenDanhMuc);
-        } else {
+        } else if (tenDanhMuc.isBlank()) {
+            JOptionPane.showMessageDialog(null, "Tên danh mục không được trống.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
+        } else if (chkTenDanhMuc) {
             JOptionPane.showMessageDialog(null, "Tên danh mục [" + tenDanhMuc + "] đã tồn tại, mời thử lại.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         }
         return 0;
@@ -60,6 +62,8 @@ public class DanhMuc_BUS {
             return DanhMuc_DAO.update(maDanhMuc, tenDanhMuc);
         } else if (!chkMaDanhMuc) {
             JOptionPane.showMessageDialog(null, "Mã danh mục [" + maDanhMuc + "] không tồn tại.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
+        } else if (tenDanhMuc.isBlank()) {
+            JOptionPane.showMessageDialog(null, "Tên danh mục không được trống.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         } else if (chkTenDanhMuc) {
             JOptionPane.showMessageDialog(null, "Tên danh mục [" + tenDanhMuc + "] đã tồn tại ở danh mục khác, mời thử lại.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         }

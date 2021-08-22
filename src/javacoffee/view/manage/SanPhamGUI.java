@@ -603,7 +603,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn ít nhất 1 món để xóa.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         else {
             dtm = (DefaultTableModel) tblSanPham.getModel();
-            int chosen = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xoá " + rowSelected.length + " bàn không?", "Thông báo", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
+            int chosen = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xoá " + rowSelected.length + " món không?", "Thông báo", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
             if (chosen == JOptionPane.YES_OPTION) {
                 SanPham_BUS sp = new SanPham_BUS();
                 int rowAffected = 0;

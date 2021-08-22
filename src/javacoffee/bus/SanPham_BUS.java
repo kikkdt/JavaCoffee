@@ -68,7 +68,7 @@ public class SanPham_BUS {
         if (!tenSP.isBlank() && !giaBan.isBlank() && !chkTenSP && chkDanhMuc && chkGiaBan) {
             return SanPham_DAO.insert(tenSP, hinhAnh, Double.parseDouble(giaBan), maDanhMuc);
         } else if (tenSP.isBlank() || giaBan.isBlank()) {
-            JOptionPane.showMessageDialog(null, "Tên món, hình ảnh và giá bán không được trống.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
+            JOptionPane.showMessageDialog(null, "Tên món và giá bán không được trống.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         } else if (chkTenSP) {
             JOptionPane.showMessageDialog(null, "Tên món" + tenSP + " đã tồn tại, mời thử lại.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         } else if (!chkDanhMuc) {

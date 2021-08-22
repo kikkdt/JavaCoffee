@@ -111,15 +111,18 @@ public class TaiKhoanGUI extends javax.swing.JPanel {
         jLabel3.setText("Tên đăng nhập:");
 
         txtTenDangNhap.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtTenDangNhap.setToolTipText("Nhập tên đăng nhập");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel4.setText("Mật khẩu:");
 
         txtMatKhau.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtMatKhau.setText("jPasswordField1");
+        txtMatKhau.setToolTipText("Nhập mật khẩu");
 
         txtMatKhau2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtMatKhau2.setText("jPasswordField1");
+        txtMatKhau2.setToolTipText("Nhập lại mật khẩu");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel6.setText("Nhập lại mật khẩu:");
@@ -129,11 +132,13 @@ public class TaiKhoanGUI extends javax.swing.JPanel {
 
         txtNhanVien.setEditable(false);
         txtNhanVien.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtNhanVien.setToolTipText("Chọn nhân viên");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel8.setText("Loại tài khoản:");
 
         cbLoaiTK.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        cbLoaiTK.setToolTipText("Chọn loại tài khoản");
 
         btnNhanVien.setBackground(new java.awt.Color(255, 255, 255));
         btnNhanVien.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N

@@ -21,6 +21,14 @@ public class NhaCungCap_BUS {
         return getList().parallelStream().anyMatch(ncc -> ncc.getMaNCC() == maNCC);
     }
 
+    public boolean isExist(String tenNCC) {
+        return getList().parallelStream().anyMatch(ncc -> ncc.getTenNCC().equalsIgnoreCase(tenNCC));
+    }
+
+    public boolean isExist(int maNCC, String tenNCC) {
+        return getList().parallelStream().anyMatch(ncc -> (ncc.getTenNCC().equalsIgnoreCase(tenNCC) && ncc.getMaNCC() != maNCC));
+    }
+
     public int getMaNCC(String tenNCC) {
         return getList().parallelStream().filter(ncc -> ncc.getTenNCC().equalsIgnoreCase(tenNCC)).map(NhaCungCap_pojo::getMaNCC).findAny().orElse(0);
     }
@@ -35,13 +43,16 @@ public class NhaCungCap_BUS {
 
     public int insert(String tenNCC, String sdt) {
         boolean chkSdt = (sdt.length() == 10 && sdt.matches("^0[0-9]{9}$"));
+        boolean chkTenNCC = isExist(tenNCC);
 
-        if (!tenNCC.isBlank() && !sdt.isBlank() && chkSdt) {
+        if (!tenNCC.isBlank() && !sdt.isBlank() && chkSdt && !chkTenNCC) {
             return NhaCungCap_DAO.insert(tenNCC, sdt);
         } else if (tenNCC.isBlank()) {
             JOptionPane.showMessageDialog(null, "Tên nhà cung cấp không được trống.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         } else if (sdt.isBlank()) {
             JOptionPane.showMessageDialog(null, "Số điện thoại không được trống.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
+        } else if (chkTenNCC) {
+            JOptionPane.showMessageDialog(null, "Tên nhà cung cấp [" + tenNCC + "] đã tồn tại, mời thử lại.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         } else if (!chkSdt) {
             JOptionPane.showMessageDialog(null, "Số điện thoại không đúng.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         }
@@ -50,13 +61,16 @@ public class NhaCungCap_BUS {
 
     public int update(int maNCC, String tenNCC, String sdt) {
         boolean chkSdt = (sdt.length() == 10 && sdt.matches("^0[0-9]{9}$"));
+        boolean chkTenNCC = isExist(maNCC, tenNCC);
 
-        if (!tenNCC.isBlank() && !sdt.isBlank() && chkSdt) {
+        if (!tenNCC.isBlank() && !sdt.isBlank() && chkSdt && !chkTenNCC) {
             return NhaCungCap_DAO.update(maNCC, tenNCC, sdt);
         } else if (tenNCC.isBlank()) {
             JOptionPane.showMessageDialog(null, "Tên nhà cung cấp không được trống.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         } else if (sdt.isBlank()) {
             JOptionPane.showMessageDialog(null, "Số điện thoại không được trống.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
+        } else if (chkTenNCC) {
+            JOptionPane.showMessageDialog(null, "Tên nhà cung cấp [" + tenNCC + "] đã tồn tại ở NCC khác, mời thử lại.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         } else if (!chkSdt) {
             JOptionPane.showMessageDialog(null, "Số điện thoại không đúng.", "Lỗi", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/error.png")));
         }

@@ -97,7 +97,7 @@ public class NguyenLieuGUI extends javax.swing.JPanel {
 
         txtTenNL.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtTenNL.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        txtTenNL.setToolTipText("Nhập tên Nhà cung cấp");
+        txtTenNL.setToolTipText("Nhập tên nguyên liệu");
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(96, 56, 19));
@@ -107,7 +107,7 @@ public class NguyenLieuGUI extends javax.swing.JPanel {
 
         txtDonViTinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtDonViTinh.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        txtDonViTinh.setToolTipText("Nhập Số điện thoại");
+        txtDonViTinh.setToolTipText("Nhập đơn vị trính");
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(96, 56, 19));
@@ -116,7 +116,7 @@ public class NguyenLieuGUI extends javax.swing.JPanel {
 
         txtDonGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtDonGia.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        txtDonGia.setToolTipText("Nhập Số điện thoại");
+        txtDonGia.setToolTipText("Nhập đơn giá");
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(96, 56, 19));
@@ -134,10 +134,12 @@ public class NguyenLieuGUI extends javax.swing.JPanel {
         jLabel16.setToolTipText("Số điện thoại");
 
         cbNCC.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbNCC.setToolTipText("Chọn nhà cung cấp");
 
         txtMoTa.setColumns(20);
         txtMoTa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtMoTa.setRows(3);
+        txtMoTa.setToolTipText("Nhập mô tả");
         jScrollPane2.setViewportView(txtMoTa);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);

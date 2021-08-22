@@ -91,12 +91,14 @@ public class BanGUI extends javax.swing.JPanel {
 
         txtBan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtBan.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtBan.setToolTipText("Nhập tên bàn");
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(96, 56, 19));
         jLabel13.setText("Tên bàn:");
 
         cbKhuVuc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbKhuVuc.setToolTipText("Chọn khu vực");
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(96, 56, 19));
