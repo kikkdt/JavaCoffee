@@ -23,7 +23,8 @@ Sau đây là các bước để có thể cài đặt và chạy nó.
 5. Thêm thư viên nếu bị lỗi (đính kèm trong src\libs)
 6. Config connection string (src\javacoffee\sqlprovider\SqlServerProvider.java)
 
-##Screenshot
+## Screenshot
+
 ![Màn hình đăng nhập](https://user-images.githubusercontent.com/59080990/146522320-313afa79-0f40-4bd7-ab1b-65d26128ec64.png)
 ![Màn hình order](https://user-images.githubusercontent.com/59080990/146522363-a67f2dd1-fd13-4198-a823-9d79598ce701.png)
 ![Màn hình order khi chọn bàn trống](https://user-images.githubusercontent.com/59080990/146522401-faaf5794-8f38-4790-94e1-5219c0bc5d3b.png)
